@@ -25,7 +25,38 @@ def display_books(books):
     print("\nYour Book list: ")
     print("*" * 50)
     for idx, book in enumerate(books, 1):
-        print(f{idx}. {book['title']} by book{['author']} [{book['status']}])
+        print(f"{idx}. {book['title']} by book{['author']} [{book['status']}]")
     print("*" * 50)
 
 #add new book to list
+def add_book(books):
+    title = input("Enter book title: ").strip()
+    author = input("Enter author name: ").strip()
+    status = input("Enter status (reading/completed/to read): ").strip().lower()
+
+    if status not in ["reading", "completed", "to read"]:
+        print("Invalid status")
+    
+    books.append({"Title": title, "author": author, "status": status})
+    save_books(books)
+    print(f"Book '{title}' added successfuly!\n")
+
+#update the status of a book
+def update_status(books):
+    display_books(books) #considering dropping this part
+    if not books: 
+        return
+    try:
+        choice = int(input("Enter a book to update: "))
+        if 1 <= choice <= len(books):
+            new_status = input("Enter new status (reading/completed/to read): ")
+            if new_status in ["reading", "completed", "to read"]:
+                books[choice - 1]["status"] = new_status
+                save_books(books)
+                print("Book status updated!\n")
+            else:
+                print("Invalid status\n")
+        else: 
+            print("Invalid book number\n")
+    except ValueError:
+        print("Please enter a valid number\n")
